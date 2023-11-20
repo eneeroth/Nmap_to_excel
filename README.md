@@ -8,5 +8,9 @@ or
 python3 nmap_to_excel.py <file1>.xml <file2>.xml <fileX>.xml -o <outputname>.xlsx
 ```
 
+# Requirements 
+```
+python3 -m pip install pandas openpyxl xmltodict
+```
 # Limitations
 At the moment the script is created for host discovery, portscans and/or version scans to simplify the report process. Further nmap outout may work but has not been tested.

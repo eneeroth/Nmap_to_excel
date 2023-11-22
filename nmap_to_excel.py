@@ -14,7 +14,7 @@ def convert_nmap_xml_to_csv(xml_files, csv_name):
         csvwriter = csv.writer(csvfile)
 
         # Write header
-        csvwriter.writerow(['Host', 'Hostname', 'Protocol', 'Port', 'Port State' 'Service', 'Product', 'Version', 'ExtraInfo'])
+        csvwriter.writerow(['Host', 'Protocol', 'Port', 'Port State', 'Service', 'Product', 'Version', 'ExtraInfo'])
             
         for xml_file in xml_files:
             # Parse the Nmap XML file
@@ -24,16 +24,15 @@ def convert_nmap_xml_to_csv(xml_files, csv_name):
 
             # Iterate through each host in the XML file
             for host in root.findall('.//host'):
-                hostname = ''
 
                 # Get host address and hostname
-                try:
-                    host_address = host.find('.//address').get('addr')
-                    #mac_address = host.find('.//address').get('addr')
-                    #vendor = host.find('.//address').get('vendor')
-                    hostname = host.find('.//hostname').get('name')
-                except AttributeError:
-                    pass
+                host_address = host.find('.//address').get('addr')
+                #mac_address = host.find('.//address').get('addr')
+                #vendor = host.find('.//address').get('vendor')
+                # try:
+                #     hostname = host.find('.//hostname').get('name')
+                # except AttributeError:
+                #     pass
 
                 # Iterate through each port in the host
                 for port in host.findall('.//port'):
@@ -41,17 +40,16 @@ def convert_nmap_xml_to_csv(xml_files, csv_name):
                     if port_state == 'open':
                         try:
                             protocol = port.get('protocol')
-                            service_name = port.find('.//service').get('name')
                             port_number = port.get('portid')
                             port_state = port.find('.//state').get('state')
                             product = port.find('.//service').get('product')
                             version = port.find('.//service').get('version')
+                            service_name = port.find('.//service').get('name')
                             extra_info = port.find('.//service').get('extrainfo')
                             # Write the data to CSV
-                            csvwriter.writerow([host_address, hostname, protocol, port_number, port_state, service_name, product, version, extra_info])
+                            csvwriter.writerow([host_address, protocol, port_number, port_state, service_name, product, version, extra_info])
                         except AttributeError:
                             pass
-
 
     print(f'[+] Conversion complete. CSV file saved as {csv_name}')
     return csv_name

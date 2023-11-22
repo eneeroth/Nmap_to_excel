@@ -14,7 +14,7 @@ def convert_nmap_xml_to_csv(xml_files, csv_name):
         csvwriter = csv.writer(csvfile)
 
         # Write header
-        csvwriter.writerow(['Host', 'Hostname', 'Mac Address', 'Vendor', 'Port', 'Port State' 'Service', 'Product', 'Version', 'ExtraInfo'])
+        csvwriter.writerow(['Host', 'Hostname', 'Protocol', 'Port', 'Port State' 'Service', 'Product', 'Version', 'ExtraInfo'])
             
         for xml_file in xml_files:
             # Parse the Nmap XML file

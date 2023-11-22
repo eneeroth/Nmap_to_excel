@@ -24,17 +24,31 @@ def convert_nmap_xml_to_csv(xml_files, csv_name):
 
             # Iterate through each host in the XML file
             for host in root.findall('.//host'):
+                host_address = ''
+                hostname = ''
+                port_number = ''
+                service_name = ''
+                product = ''
+                version = ''
+                extra_info = ''
+
                 # Get host address and hostname
-                host_address = host.find('.//address').get('addr')
-                hostname = host.find('.//hostname').get('name')
+                try:
+                    host_address = host.find('.//address').get('addr')
+                    hostname = host.find('.//hostname').get('name')
+                except AttributeError:
+                    pass
 
                 # Iterate through each port in the host
                 for port in host.findall('.//port'):
-                    port_number = port.get('portid')
-                    service_name = port.find('.//service').get('name')
-                    product = port.find('.//service').get('product')
-                    version = port.find('.//service').get('version')
-                    extra_info = port.find('.//service').get('extrainfo')
+                    try:
+                        port_number = port.get('portid')
+                        service_name = port.find('.//service').get('name')
+                        product = port.find('.//service').get('product')
+                        version = port.find('.//service').get('version')
+                        extra_info = port.find('.//service').get('extrainfo')
+                    except AttributeError:
+                        pass
 
                     # Write the data to CSV
                     csvwriter.writerow([host_address, hostname, port_number, service_name, product, version, extra_info])
